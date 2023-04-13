@@ -55,36 +55,7 @@ let round = function(playerChoice, computerChoice) {
     let winOrLose;
     let gameResult = ``;
 
-    if ((playerScore === 5) || (computerScore === 5)) {
-        if (playerScore === 5) {
-            gameResult = `You won!`;
-        } else {
-            gameResult = `You Lost!`;
-        };
-
-        btns.forEach(btn => gameButtons.removeChild(btn));
-
-        const playAnotherRound = document.querySelector(`#replay`);
-    
-        const askForReplay = document.createElement(`p`);
-        askForReplay.textContent = `${gameResult} Would you like to play again?`;
-        playAnotherRound.appendChild(askForReplay);
-    
-        const playAgain = document.createElement(`button`);
-        playAgain.textContent = `Play Again`;
-        playAnotherRound.appendChild(playAgain);
-        
-        playAgain.addEventListener(`click`, () => {
-            playerScore = 0;
-            computerScore = 0;
-            document.querySelector(`#playerScore`).textContent = playerScore;
-            document.querySelector(`#computerScore`).textContent = computerScore;
-            playAnotherRound.removeChild(askForReplay);
-            playAnotherRound.removeChild(playAgain);
-            btns.forEach(btn => gameButtons.appendChild(btn));
-            });
-
-    } else if (playerChoice === computerChoice) {
+    if (playerChoice === computerChoice) {
         document.querySelector(`#results`).textContent = ("It's a tie!");
         winOrLose = null;
 
@@ -125,6 +96,42 @@ let round = function(playerChoice, computerChoice) {
         }
     }
     
-
+    checkForWinner();
 
 }
+
+//function to check for winner
+let checkForWinner = (playerPick) => {
+    if ((playerScore === 5) || (computerScore === 5)) {
+        if (playerScore === 5) {
+            gameResult = `You won!`;
+        } else {
+            gameResult = `You Lost!`;
+        };
+
+        btns.forEach(btn => gameButtons.removeChild(btn));
+
+        const playAnotherRound = document.querySelector(`#replay`);
+    
+        const askForReplay = document.createElement(`p`);
+        askForReplay.textContent = `${gameResult} Would you like to play again?`;
+        playAnotherRound.appendChild(askForReplay);
+    
+        const playAgain = document.createElement(`button`);
+        playAgain.textContent = `Play Again`;
+        playAnotherRound.appendChild(playAgain);
+        
+        playAgain.addEventListener(`click`, () => {
+            playerScore = 0;
+            computerScore = 0;
+            document.querySelector(`#playerScore`).textContent = playerScore;
+            document.querySelector(`#computerScore`).textContent = computerScore;
+            playAnotherRound.removeChild(askForReplay);
+            playAnotherRound.removeChild(playAgain);
+            btns.forEach(btn => gameButtons.appendChild(btn));
+            });
+        } else {
+            return;
+        }
+};
+
