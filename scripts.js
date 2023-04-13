@@ -1,3 +1,8 @@
+//Set variables for score
+let playerScore = 0;
+let computerScore = 0;
+
+
 //Function that gets computer choice
 let computerChoice =  function() {
     let randomNum = Math.floor(Math.random() * 9) + 1;
@@ -9,20 +14,6 @@ let computerChoice =  function() {
         return "scissors"
     }
 }
-
-//Set player choice variable
-
-
-// Function that asks player for choice
-let getPlayerChoice = function() {
-    do {
-        playerChoice = prompt("Please choose rock, papaer, or scissors: ");
-        playerChoice = playerChoice.toLowerCase();
-    }
-    while (playerChoice != "rock" && playerChoice != "paper" && playerChoice != "scissors");
-    return playerChoice;
-}
-
 
 //Functions to determine win or lose
 let rock = function(computerChoice) {
@@ -54,65 +45,61 @@ let scissors = function(computerChoice) {
 let round = function(playerChoice, computerChoice) {
     let winOrLose;
 
-    console.log(playerChoice);
-    console.log(computerChoice);
-
-    if (playerChoice === computerChoice) {
-        alert("It's a tie!");
+    if ((playerScore === 5) || (computerScore === 5)) {
+        let playAgain = confirm ("Game over, would you like to play again?");
+        if (playAgain) {
+            playerScore = 0;
+            computerScore = 0;
+            document.querySelector(`#playerScore`).textContent = playerScore;
+            document.querySelector(`#computerScore`).textContent = computerScore;
+        } else {
+            return;
+        }
+    }else if (playerChoice === computerChoice) {
+        document.querySelector(`#results`).textContent = ("It's a tie!");
         winOrLose = null;
     } else if (playerChoice === "rock") {
         winOrLose = rock(computerChoice);
         if (winOrLose === true) {
-            alert("You Win! Rock beats Scissors!");
-            winOrLose = true;
+            document.querySelector(`#results`).textContent = ("You Win! Rock beats Scissors!");
+            playerScore++
+            document.querySelector(`#playerScore`).textContent = playerScore;
         } else {
-            alert("You lose! Paper Beats Rock!");
-            winOrLose= false;
+            document.querySelector(`#results`).textContent = ("You lose! Paper Beats Rock!");
+            computerScore++
+            document.querySelector(`#computerScore`).textContent = computerScore;
         }
     } else if (playerChoice === "paper") {
         winOrLose = paper(computerChoice);
         if (winOrLose === true) {
-            alert("You Win! Paper beats Rock!");
-            winOrLose = true;
+            document.querySelector(`#results`).textContent = ("You Win! Paper beats Rock!");
+            playerScore++
+            document.querySelector(`#playerScore`).textContent = playerScore;
         } else {
-            alert("You lose! Scissors beats Paper!");
-            winOrLose = false;
+            document.querySelector(`#results`).textContent = ("You lose! Scissors beats Paper!");
+            computerScore++
+            document.querySelector(`#computerScore`).textContent = computerScore;
         }
     } else if (playerChoice === "scissors") {
         winOrLose = scissors(computerChoice);
         if (winOrLose === true) {
-            alert("You Win! Scissors beats Paper!");
-            winOrLose = true;
+            document.querySelector(`#results`).textContent = ("You Win! Scissors beats Paper!");
+            playerScore++
+            document.querySelector(`#playerScore`).textContent = playerScore;
         } else {
-            alert("You lose! Rock beats Scissors");
-            winOrLose = false;
+            document.querySelector(`#results`).textContent = ("You lose! Rock beats Scissors");
+            computerScore++
+            document.querySelector(`#computerScore`).textContent = computerScore;
         }
     }
+    
 
-    return winOrLose;
+
 }
 
 
-// //function to play best of five game
-let games = 1;
-let score = 0;
+const btns = document.querySelectorAll(`button`);
 
-let bestOfFive = function() {
-    do {
-        let outcome = round(getPlayerChoice(),computerChoice());
-        console.log(outcome);
-        if (outcome === null) {
-        } else if (outcome === true) {
-            games++;
-            score++;
-        } else if (outcome === false) {
-            games++;
-        }
-    } while (games <= 5);
-
-    return score;
-}
-
-let gameScore = bestOfFive();
-
-alert(`You won ${gameScore} games out of 5!`);
+btns.forEach(btn => btn.addEventListener(`click`, () => {
+    round(btn.id, computerChoice());
+}));
