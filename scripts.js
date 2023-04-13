@@ -2,6 +2,15 @@
 let playerScore = 0;
 let computerScore = 0;
 
+//button interactivity
+const btns = document.querySelectorAll(`button`);
+
+btns.forEach(btn => btn.addEventListener(`click`, () => {
+    round(btn.id, computerChoice());
+}));
+
+const gameButtons = document.querySelector(`#playerChoice`);
+
 
 //Function that gets computer choice
 let computerChoice =  function() {
@@ -44,20 +53,41 @@ let scissors = function(computerChoice) {
 //Function to play a round and return win or lose
 let round = function(playerChoice, computerChoice) {
     let winOrLose;
+    let gameResult = ``;
 
     if ((playerScore === 5) || (computerScore === 5)) {
-        let playAgain = confirm ("Game over, would you like to play again?");
-        if (playAgain) {
+        if (playerScore === 5) {
+            gameResult = `You won!`;
+        } else {
+            gameResult = `You Lost!`;
+        };
+
+        btns.forEach(btn => gameButtons.removeChild(btn));
+
+        const playAnotherRound = document.querySelector(`#replay`);
+    
+        const askForReplay = document.createElement(`p`);
+        askForReplay.textContent = `${gameResult} Would you like to play again?`;
+        playAnotherRound.appendChild(askForReplay);
+    
+        const playAgain = document.createElement(`button`);
+        playAgain.textContent = `Play Again`;
+        playAnotherRound.appendChild(playAgain);
+        
+        playAgain.addEventListener(`click`, () => {
             playerScore = 0;
             computerScore = 0;
             document.querySelector(`#playerScore`).textContent = playerScore;
             document.querySelector(`#computerScore`).textContent = computerScore;
-        } else {
-            return;
-        }
-    }else if (playerChoice === computerChoice) {
+            playAnotherRound.removeChild(askForReplay);
+            playAnotherRound.removeChild(playAgain);
+            btns.forEach(btn => gameButtons.appendChild(btn));
+            });
+
+    } else if (playerChoice === computerChoice) {
         document.querySelector(`#results`).textContent = ("It's a tie!");
         winOrLose = null;
+
     } else if (playerChoice === "rock") {
         winOrLose = rock(computerChoice);
         if (winOrLose === true) {
@@ -69,6 +99,7 @@ let round = function(playerChoice, computerChoice) {
             computerScore++
             document.querySelector(`#computerScore`).textContent = computerScore;
         }
+
     } else if (playerChoice === "paper") {
         winOrLose = paper(computerChoice);
         if (winOrLose === true) {
@@ -80,6 +111,7 @@ let round = function(playerChoice, computerChoice) {
             computerScore++
             document.querySelector(`#computerScore`).textContent = computerScore;
         }
+
     } else if (playerChoice === "scissors") {
         winOrLose = scissors(computerChoice);
         if (winOrLose === true) {
@@ -96,10 +128,3 @@ let round = function(playerChoice, computerChoice) {
 
 
 }
-
-
-const btns = document.querySelectorAll(`button`);
-
-btns.forEach(btn => btn.addEventListener(`click`, () => {
-    round(btn.id, computerChoice());
-}));
