@@ -11,6 +11,8 @@ btns.forEach(btn => btn.addEventListener(`click`, () => {
     round(btn.id, computerChoice());
 }));
 
+btns.addEventListener(`onmouseover`)
+
 const gameButtons = document.querySelector(`#playerChoice`);
 
 
