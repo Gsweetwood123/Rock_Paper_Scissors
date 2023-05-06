@@ -1,5 +1,10 @@
 body {
     text-align: center;
+    font-family: 'DynaPuff', cursive;
+}
+
+h1 {
+    font-size: 48px;
 }
 
 .score {
@@ -7,7 +12,12 @@ body {
     justify-content: space-around;
 }
 
+button {
+    border-radius: 30%;
+}
+
 img {
+    border-radius: 30%;
     max-width: auto;
-    max-height: 200px;
+    max-height: 150px;
 }

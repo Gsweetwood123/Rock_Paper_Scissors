@@ -1,6 +1,8 @@
 //Set variables for score
 let playerScore = 0;
 let computerScore = 0;
+let winOrLose;
+let gameResult = ``;
 
 //button interactivity
 const btns = document.querySelectorAll(`button`);
@@ -47,6 +49,11 @@ let scissors = function(computerChoice) {
     } else {
             return true;
         }
+}
+
+//win or lose functions
+let win = () => {
+
 }
 
 
